@@ -4,7 +4,7 @@
 #
 Name     : thermal_monitor
 Version  : 1.8
-Release  : 3
+Release  : 4
 URL      : https://github.com/intel/thermal_daemon/archive/v1.8.tar.gz
 Source0  : https://github.com/intel/thermal_daemon/archive/v1.8.tar.gz
 Summary  : The "Linux Thermal Daemon" program from 01.org
@@ -49,9 +49,10 @@ pushd tools/thermal_monitor
 %qmake ThermalMonitor.pro
 test -r config.log && cat config.log
 make  %{?_smp_mflags}
+popd
 
 %install
-export SOURCE_DATE_EPOCH=1539880457
+export SOURCE_DATE_EPOCH=1539880694
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/thermal_monitor
 cp COPYING %{buildroot}/usr/share/package-licenses/thermal_monitor/COPYING
