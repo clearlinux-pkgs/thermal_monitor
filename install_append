@@ -1,0 +1,1 @@
+install -D -m0755 tools/thermal_monitor/ThermalMonitor %{buildroot}/usr/bin/ThermalMonitor

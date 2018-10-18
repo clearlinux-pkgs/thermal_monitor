@@ -4,12 +4,13 @@
 #
 Name     : thermal_monitor
 Version  : 1.8
-Release  : 4
+Release  : 5
 URL      : https://github.com/intel/thermal_daemon/archive/v1.8.tar.gz
 Source0  : https://github.com/intel/thermal_daemon/archive/v1.8.tar.gz
 Summary  : The "Linux Thermal Daemon" program from 01.org
 Group    : Development/Tools
 License  : GPL-2.0 GPL-2.0+ GPL-3.0
+Requires: thermal_monitor-bin = %{version}-%{release}
 Requires: thermal_monitor-license = %{version}-%{release}
 BuildRequires : buildreq-qmake
 BuildRequires : gettext
@@ -28,6 +29,15 @@ BuildRequires : pkgconfig(libxml-2.0)
 
 %description
 Thermal Daemon monitors and controls platform temperature.
+
+%package bin
+Summary: bin components for the thermal_monitor package.
+Group: Binaries
+Requires: thermal_monitor-license = %{version}-%{release}
+
+%description bin
+bin components for the thermal_monitor package.
+
 
 %package license
 Summary: license components for the thermal_monitor package.
@@ -52,7 +62,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1539880694
+export SOURCE_DATE_EPOCH=1539880917
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/thermal_monitor
 cp COPYING %{buildroot}/usr/share/package-licenses/thermal_monitor/COPYING
@@ -60,9 +70,16 @@ cp tools/thermal_monitor/qcustomplot/GPL.txt %{buildroot}/usr/share/package-lice
 pushd tools/thermal_monitor
 %make_install
 popd
+## install_append content
+install -D -m0755 tools/thermal_monitor/ThermalMonitor %{buildroot}/usr/bin/ThermalMonitor
+## install_append end
 
 %files
 %defattr(-,root,root,-)
+
+%files bin
+%defattr(-,root,root,-)
+/usr/bin/ThermalMonitor
 
 %files license
 %defattr(0644,root,root,0755)
