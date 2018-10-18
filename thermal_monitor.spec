@@ -4,7 +4,7 @@
 #
 Name     : thermal_monitor
 Version  : 1.8
-Release  : 2
+Release  : 3
 URL      : https://github.com/intel/thermal_daemon/archive/v1.8.tar.gz
 Source0  : https://github.com/intel/thermal_daemon/archive/v1.8.tar.gz
 Summary  : The "Linux Thermal Daemon" program from 01.org
@@ -25,8 +25,6 @@ BuildRequires : pkgconfig(dbus-glib-1)
 BuildRequires : pkgconfig(gio-unix-2.0)
 BuildRequires : pkgconfig(gmodule-2.0)
 BuildRequires : pkgconfig(libxml-2.0)
-BuildRequires : pkgconfig(systemd)
-BuildRequires : systemd-dev
 
 %description
 Thermal Daemon monitors and controls platform temperature.
@@ -53,7 +51,7 @@ test -r config.log && cat config.log
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1539880281
+export SOURCE_DATE_EPOCH=1539880457
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/thermal_monitor
 cp COPYING %{buildroot}/usr/share/package-licenses/thermal_monitor/COPYING
