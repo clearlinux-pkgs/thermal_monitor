@@ -4,7 +4,7 @@
 #
 Name     : thermal_monitor
 Version  : 1.8
-Release  : 6
+Release  : 7
 URL      : https://github.com/intel/thermal_daemon/archive/v1.8.tar.gz
 Source0  : https://github.com/intel/thermal_daemon/archive/v1.8.tar.gz
 Summary  : The "Linux Thermal Daemon" program from 01.org
@@ -49,24 +49,26 @@ license components for the thermal_monitor package.
 
 %prep
 %setup -q -n thermal_daemon-1.8
+cd %{_builddir}/thermal_daemon-1.8
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
+export GCC_IGNORE_WERROR=1
 pushd tools/thermal_monitor
-%qmake ThermalMonitor.pro
+%qmake -config ltcg -config fat-static-lto  ThermalMonitor.pro
 test -r config.log && cat config.log
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1539880917
+export SOURCE_DATE_EPOCH=1604355829
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/thermal_monitor
-cp COPYING %{buildroot}/usr/share/package-licenses/thermal_monitor/COPYING
-cp tools/thermal_monitor/qcustomplot/GPL.txt %{buildroot}/usr/share/package-licenses/thermal_monitor/tools_thermal_monitor_qcustomplot_GPL.txt
+cp %{_builddir}/thermal_daemon-1.8/COPYING %{buildroot}/usr/share/package-licenses/thermal_monitor/b3aebbdebf056cbf1cb73b76edf8ea105c37239d
+cp %{_builddir}/thermal_daemon-1.8/tools/thermal_monitor/qcustomplot/GPL.txt %{buildroot}/usr/share/package-licenses/thermal_monitor/8624bcdae55baeef00cd11d5dfcfa60f68710a02
 pushd tools/thermal_monitor
 %make_install
 popd
@@ -83,5 +85,5 @@ install -D -m0755 tools/thermal_monitor/ThermalMonitor %{buildroot}/usr/bin/Ther
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/thermal_monitor/COPYING
-/usr/share/package-licenses/thermal_monitor/tools_thermal_monitor_qcustomplot_GPL.txt
+/usr/share/package-licenses/thermal_monitor/8624bcdae55baeef00cd11d5dfcfa60f68710a02
+/usr/share/package-licenses/thermal_monitor/b3aebbdebf056cbf1cb73b76edf8ea105c37239d
